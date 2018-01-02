@@ -58,19 +58,19 @@ scaleImage = scaleImage;var _exif = require('./exif');var _exif2 = _interopRequi
   // EXIF
   exifApplied(canvas, ctx, orientation, img);
 
-  var maxWidth = findMaxWidth(config, canvas);
+  var dimensions = findMaxWidth(config, canvas);
 
   while (canvas.width >= 2 * maxWidth) {
     canvas = getHalfScaleCanvas(canvas);
   }
 
   if (canvas.width > maxWidth) {
-    canvas = scaleCanvasWithAlgorithm(canvas, Object.assign(config, { outputWidth: maxWidth }));
+    canvas = scaleCanvasWithAlgorithm(canvas, Object.assign(config, { outputWidth: dimensions.width }));
   }
 
   var imageData = canvas.toDataURL('image/jpeg', config.quality);
   if (typeof config.onScale === 'function') config.onScale(imageData);
-  return dataURIToBlob(imageData);
+  return { resizedImage: dataURIToBlob(imageData), dimensions: dimensions };
 }
 
 function findMaxWidth(config, canvas) {
@@ -112,7 +112,12 @@ function findMaxWidth(config, canvas) {
     console.warning('browser-image-resizer: image size is too small');
   }
 
-  return mWidth;
+  return {
+    width: mWidth,
+    height: mWidth / ratio,
+    originalWidth: canvas.width,
+    originalHeight: canvas.height };
+
 }
 
 function exifApplied(canvas, ctx, orientation, img) {
