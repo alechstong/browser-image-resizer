@@ -60,11 +60,11 @@ export function scaleImage(img, config, orientation = 1) {
 
   let dimensions = findMaxWidth(config, canvas);
 
-  while (canvas.width >= 2 * maxWidth) {
+  while (canvas.width >= 2 * dimensions.width) {
     canvas = getHalfScaleCanvas(canvas);
   }
 
-  if (canvas.width > maxWidth) {
+  if (canvas.width > dimensions.width) {
     canvas = scaleCanvasWithAlgorithm(canvas, Object.assign(config, { outputWidth: dimensions.width }));
   }
 

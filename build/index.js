@@ -60,11 +60,11 @@ scaleImage = scaleImage;var _exif = require('./exif');var _exif2 = _interopRequi
 
   var dimensions = findMaxWidth(config, canvas);
 
-  while (canvas.width >= 2 * maxWidth) {
+  while (canvas.width >= 2 * dimensions.width) {
     canvas = getHalfScaleCanvas(canvas);
   }
 
-  if (canvas.width > maxWidth) {
+  if (canvas.width > dimensions.width) {
     canvas = scaleCanvasWithAlgorithm(canvas, Object.assign(config, { outputWidth: dimensions.width }));
   }
 
