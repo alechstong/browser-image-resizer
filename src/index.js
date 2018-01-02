@@ -76,14 +76,14 @@ export function scaleImage(img, config, orientation = 1) {
 function findMaxWidth(config, canvas) {
   //Let's find the max available width for scaled image
   var ratio = canvas.width / canvas.height;
-  var mWidth = Math.min(config.maxWidth, ratio * config.maxHeight);
+  var mWidth = Math.min(canvas.width, config.maxWidth, ratio * config.maxHeight);
   if (
     config.maxSize > 0 &&
     config.maxSize < canvas.width * canvas.height / 1000
   )
     mWidth = Math.min(
       mWidth,
-      Math.floor(Math.sqrt(config.maxSize * ratio))
+      Math.floor(Math.sqrt(config.maxSize * ratio * 1000))
     );
   if (!!config.scaleRatio)
     mWidth = Math.min(
